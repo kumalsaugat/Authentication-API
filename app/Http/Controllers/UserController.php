@@ -32,9 +32,49 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'tc' => json_decode($request->tc),
         ]);
+
+        $token = $user->createToken($request->email)->plainTextToken;
+
+
         return response([
+            'token' => $token,
             'message' => 'Registration Success',
             'status' => 'success',
         ],201);
     }
+
+    public function login(Request $request){
+
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if($user && Hash::check($request->password, $user->password)){
+
+            $token = $user->createToken($request->email)->plainTextToken;
+            return response([
+                'token' => $token,
+                'message' => 'Login Success',
+                'status' => 'success',
+            ],200);
+
+        }
+        return response([
+            'message' => 'The Provided Credentials are incorrect',
+            'status' => 'failed',
+        ],401);
+
+    }
+
+    public function logout(){
+        auth()->user()->tokens()->delete();
+        return response([
+            'message' => 'Logout Success',
+            'status' => 'success',
+        ],200);
+    }
+
+
 }
