@@ -8,7 +8,8 @@ Route::post('/register',[\App\Http\Controllers\UserController::class, 'register'
 
 
 Route::post('/login', [\App\Http\Controllers\UserController::class, 'login']);
-
+Route::post('/send-reset-password-email', [\App\Http\Controllers\PasswordResetController::class, 'send_reset_password_email']);
+Route::post('/reset-password/{token}', [\App\Http\Controllers\PasswordResetController::class, 'reset']);
 
 
 //Protected Routes
