@@ -16,5 +16,6 @@ Route::post('/login', [\App\Http\Controllers\UserController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::post('/logout', [\App\Http\Controllers\UserController::class, 'logout']);
-
+    Route::get('/loggeduser', [\App\Http\Controllers\UserController::class, 'logged_user']);
+    Route::post('/changepassword', [\App\Http\Controllers\UserController::class, 'change_password']);
 });
